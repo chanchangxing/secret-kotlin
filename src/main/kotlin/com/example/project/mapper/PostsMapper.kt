@@ -1,7 +1,5 @@
 package com.example.project.mapper
 
-import com.example.project.bean.CommentBean
-import com.example.project.bean.PostsDetailBean
 import com.example.project.bean.PostsListBean
 import org.apache.ibatis.annotations.*
 import java.sql.Timestamp
@@ -13,8 +11,10 @@ interface PostsMapper {
             "from posts as p left join `like` as l " +
             "on p.id = l.posts_id " +
             "and l.user_id = #{user_id} " +
-            "order by timestamp desc")
-    fun getPostsList(@Param("user_id") userId: Int): List<PostsListBean>
+            "where p.id <= " +
+            "(select id from posts order by id desc limit #{page}, 1) " +
+            "order by p.id desc limit 5")
+    fun getPostsList(@Param("user_id") userId: Int, @Param("page") page: Int): List<PostsListBean>
 
     @Select("select count(*) from `like` where posts_id = #{posts_id} and status = 1")
     fun getLikeCount(@Param("posts_id") postsId: Int): Int
