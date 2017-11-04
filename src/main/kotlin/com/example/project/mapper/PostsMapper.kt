@@ -13,7 +13,7 @@ interface PostsMapper {
             "and l.user_id = #{user_id} " +
             "where p.id <= " +
             "(select id from posts order by id desc limit #{page}, 1) " +
-            "order by p.id desc limit 5")
+            "order by p.id desc limit 10")
     fun getPostsList(@Param("user_id") userId: Int, @Param("page") page: Int): List<PostsListBean>
 
     @Select("select count(*) from `like` where posts_id = #{posts_id} and status = 1")

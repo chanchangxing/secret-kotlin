@@ -12,7 +12,7 @@ class PostsController(var mapper: PostsMapper) {
 
     @GetMapping("/list")
     fun getPosts(@RequestParam("user") user: Int, @RequestParam("page") page: Int): List<Map<String, Any>> {
-        val list = mapper.getPostsList(user, (page - 1) * 5)
+        val list = mapper.getPostsList(user, (page - 1) * 10)
         val postsList = ArrayList<Map<String, Any>>()
         list.forEach {
             val map = HashMap<String, Any>()
